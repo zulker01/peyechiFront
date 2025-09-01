@@ -49,6 +49,7 @@ function App() {
         <div className="App-content">
           <Home 
             token={token} 
+            userId={currentUser?.id}
             onBackToLogin={handleBackToLogin}
           />
         </div>

@@ -30,9 +30,15 @@ function Login({ onSwitchToSignup, onLoginSuccess }) {
 
       const receivedToken = response?.data?.data?.token || ''; // ? checks if response is null or undefined
       const username = response?.data?.data?.username || response?.data?.data?.email || email;
-      const userData = { username: username, email: email };
+      const userId = response?.data?.data?.userId  || '';
+      const userData = { 
+        username: username, 
+        email: email, 
+        id: userId 
+      };
       setToken(receivedToken); // sets token locally , not needed 
       console.log('Received token:', receivedToken);
+      console.log('User ID:', userId);
       console.log('User data:', userData);
       
       // Call the parent callback with the token
