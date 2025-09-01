@@ -6,7 +6,7 @@ function Home({token, userId, onBackToLogin}){
     const [currentView, setCurrentView] = useState('home');
 
     if (currentView === 'found') return <FoundInfo token={token} userId={userId} onBack={() => setCurrentView('home')} />;
-    if (currentView === 'lost') return <LostPage onBack={() => setCurrentView('home')} />;
+    if (currentView === 'lost') return <LostPage token={token} onBack={() => setCurrentView('home')} />;
     
 
     return(
