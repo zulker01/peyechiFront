@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useCallback } from 'react';
 import axios from 'axios';
 
 function LostPage({ token, onBack }) {
@@ -6,7 +6,7 @@ function LostPage({ token, onBack }) {
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
 
-  const fetchFoundItems = async () => {
+  const fetchFoundItems = useCallback(async () => {
     setLoading(true);
     setErrorMessage('');
 
@@ -32,13 +32,9 @@ function LostPage({ token, onBack }) {
     } finally {
       setLoading(false);
     }
-  };
-
-  useEffect(() => {
-    if (token) {
-      fetchFoundItems();
-    }
   }, [token]);
+
+  
 
   const handleRefresh = () => {
     fetchFoundItems();
