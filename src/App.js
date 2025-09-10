@@ -5,11 +5,12 @@ import Signup from './component/signup/signup';
 import Users from './component/users/users';
 import Home from './component/homepage/homepage';
 import AppNavbar from './component/navbar/Navbar';
+import ProfilePage from './component/Profile/Profile';
 
 function App() { 
   const [view, setView] = useState('home');    // default view is login 
   const [token, setToken] = useState('');
-  const [currentUser,setCurrentUser] = useState('default')
+  const [currentUser,setCurrentUser] = useState(null)
 
   const handleLoginSuccess = (receivedToken,userData) => {  //set receivedToken parameter to global token
     setToken(receivedToken);
@@ -31,6 +32,7 @@ function App() {
         onSwitchToHome={() => setView('home')}
         onSwitchToLogin={() => setView('login')}
         onSwitchToSignup={() => setView('signup')}
+        onSwitchToProfile={() => setView('profile')}
         currentUser={currentUser}
         onLogout={handleBackToLogin}
       />
@@ -44,6 +46,10 @@ function App() {
       ) : view === 'signup' ? (
         <div className="App-content">
           <Signup onSwitchToLogin={() => setView('login')} />
+        </div>
+      ): view === 'profile' ? (
+        <div className="App-content">
+          <ProfilePage onSwitchToLogin={() => setView('login')} />
         </div>
       ) : view === 'home' ? (
         <div className="App-content">

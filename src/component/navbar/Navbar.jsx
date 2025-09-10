@@ -1,7 +1,7 @@
 import React from 'react';
 import { Navbar, Nav, Container, NavDropdown } from 'react-bootstrap';
 
-function AppNavbar({ onSwitchToHome, onSwitchToLogin, onSwitchToSignup, currentUser, onLogout }) {
+function AppNavbar({ onSwitchToHome, onSwitchToLogin, onSwitchToSignup,onSwitchToProfile, currentUser, onLogout }) {
   return (
     <Navbar bg="dark" variant="dark" expand="lg" className="w-100">
       <Container fluid>
@@ -17,7 +17,7 @@ function AppNavbar({ onSwitchToHome, onSwitchToLogin, onSwitchToSignup, currentU
                 id="user-nav-dropdown"
                 align="end"
               >
-                <NavDropdown.Item href="#profile">Profile</NavDropdown.Item>
+                <NavDropdown.Item onClick={onSwitchToProfile}>Profie</NavDropdown.Item>
                 <NavDropdown.Item href="#settings">Settings</NavDropdown.Item>
                 <NavDropdown.Divider />
                 <NavDropdown.Item onClick={onLogout}>Logout</NavDropdown.Item>
