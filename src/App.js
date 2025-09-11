@@ -6,6 +6,7 @@ import Users from './component/users/users';
 import Home from './component/homepage/homepage';
 import AppNavbar from './component/navbar/Navbar';
 import ProfilePage from './component/Profile/Profile';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() { 
   const [view, setView] = useState('home');    // default view is login 
@@ -27,7 +28,7 @@ function App() {
   };
 
   return (
-    <div className="App">
+    <div >
       <AppNavbar 
         onSwitchToHome={() => setView('home')}
         onSwitchToLogin={() => setView('login')}
@@ -44,7 +45,7 @@ function App() {
           />
         </div>
       ) : view === 'signup' ? (
-        <div className="App-content">
+        <div >
           <Signup onSwitchToLogin={() => setView('login')} />
         </div>
       ): view === 'profile' ? (
