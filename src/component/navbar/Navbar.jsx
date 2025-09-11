@@ -1,39 +1,35 @@
 import React from 'react';
-import { Navbar, Nav, Container, NavDropdown } from 'react-bootstrap';
 
-function AppNavbar({ onSwitchToHome, onSwitchToLogin, onSwitchToSignup,onSwitchToProfile, currentUser, onLogout }) {
+function AppNavbar({ onSwitchToHome, onSwitchToLogin, onSwitchToSignup, onSwitchToProfile, currentUser, onLogout }) {
+  const userDisplayName = currentUser && (currentUser.username || currentUser.email || 'User');
+
   return (
-    <Navbar bg="dark" variant="dark" expand="lg" className="w-100">
-      <Container fluid>
-        <Navbar.Brand href="#" onClick={onSwitchToHome} style={{cursor: 'pointer'}}>My App</Navbar.Brand>
-        <Navbar.Toggle aria-controls="basic-navbar-nav" />
-        <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="ms-auto">
-            <Nav.Link onClick={onSwitchToHome} style={{cursor: 'pointer'}}>Home</Nav.Link>
-            <Nav.Link href="#about">About</Nav.Link>
+    <nav className="w-full bg-gray-900 text-white">
+      <div className="mx-auto max-w-6xl px-4">
+        <div className="h-14 flex items-center justify-between">
+          <button type="button" onClick={onSwitchToHome} className="font-semibold bg-transparent p-0 w-auto border-0">My App</button>
+
+          <div className="flex items-center gap-4">
+            <button type="button" onClick={onSwitchToHome} className="hover:text-gray-300 bg-transparent p-0 w-auto border-0">Home</button>
+            <a href="#about" className="hover:text-gray-300">About</a>
             {currentUser ? (
-              <NavDropdown 
-                title={`Welcome, ${currentUser.username || currentUser.email || 'User'}`} 
-                id="user-nav-dropdown"
-                align="end"
-              >
-                <NavDropdown.Item onClick={onSwitchToProfile}>Profie</NavDropdown.Item>
-                <NavDropdown.Item href="#settings">Settings</NavDropdown.Item>
-                <NavDropdown.Divider />
-                <NavDropdown.Item onClick={onLogout}>Logout</NavDropdown.Item>
-              </NavDropdown>
+              <>
+                <span className="text-sm text-gray-300">Welcome, {userDisplayName}</span>
+                <button type="button" onClick={onSwitchToProfile} className="hover:text-gray-300 bg-transparent p-0 w-auto border-0">Profile</button>
+                <button type="button" onClick={onLogout} className="text-red-300 hover:text-red-200 bg-transparent p-0 w-auto border-0">Logout</button>
+              </>
             ) : (
               <>
-                <Nav.Link onClick={onSwitchToLogin} style={{cursor: 'pointer'}}>Login</Nav.Link>
+                <button type="button" onClick={onSwitchToLogin} className="hover:text-gray-300 bg-transparent p-0 w-auto border-0">Login</button>
                 {onSwitchToSignup && (
-                  <Nav.Link onClick={onSwitchToSignup} style={{cursor: 'pointer'}}>Sign Up</Nav.Link>
+                  <button type="button" onClick={onSwitchToSignup} className="hover:text-gray-300 bg-transparent p-0 w-auto border-0">Sign Up</button>
                 )}
               </>
             )}
-          </Nav>
-        </Navbar.Collapse>
-      </Container>
-    </Navbar>
+          </div>
+        </div>
+      </div>
+    </nav>
   );
 }
 

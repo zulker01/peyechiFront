@@ -10,7 +10,7 @@ import ProfilePage from './component/Profile/Profile';
 function App() { 
   const [view, setView] = useState('home');    // default view is login 
   const [token, setToken] = useState('');
-  const [currentUser,setCurrentUser] = useState(null)
+  const [currentUser,setCurrentUser] = useState('default')
 
   const handleLoginSuccess = (receivedToken,userData) => {  //set receivedToken parameter to global token
     setToken(receivedToken);
