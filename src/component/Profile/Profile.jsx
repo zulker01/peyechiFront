@@ -1,10 +1,31 @@
 import React from 'react';
-
+import { Col, Row } from 'react-bootstrap';
+import Container from 'react-bootstrap/Container';
 function ProfilePage({onSwitchToLogin}){
     return(
-        <h1 className="text-3xl font-bold underline">
-      Hello world!
-    </h1>
+        <Container>
+          <Row className="mb-3">
+    <Col></Col>
+    <Col>
+      <Row>
+        <Col>Name</Col>
+        <Col>usernamevar</Col>
+      </Row>
+    </Col>
+    <Col></Col>
+  </Row>
+
+  <Row className="mb-3">
+    <Col></Col>
+    <Col>
+      <Row>
+        <Col>Email</Col>
+        <Col>useremailvar</Col>
+      </Row>
+    </Col>
+    <Col></Col>
+  </Row>
+        </Container>
 
 
     );
