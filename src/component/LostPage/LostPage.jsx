@@ -1,5 +1,6 @@
 import React, { useState, useCallback } from 'react';
 import axios from 'axios';
+import { Container, Row, Col, Button, Spinner, Card } from 'react-bootstrap';
 
 function LostPage({ token, onBack }) {
   const [foundItems, setFoundItems] = useState([]);
@@ -11,15 +12,20 @@ function LostPage({ token, onBack }) {
     setErrorMessage('');
 
     try {
-      const response = await axios.get(
-        `${process.env.REACT_APP_backendURI}/api/foundItem/all`,
+      const response = await axios.post(
+        `${process.env.REACT_APP_backendURI}/api/default/foundItem`,
+        {
+          // API expects `username`, map from email input
+          current: 0,
+          size: 10
+        },
         {
           headers: {
-            'Authorization': `Bearer ${token}`,
             'Content-Type': 'application/json'
           }
         }
       );
+    
 
       setFoundItems(response?.data?.data || response?.data || []);
     } catch (error) {
@@ -41,63 +47,43 @@ function LostPage({ token, onBack }) {
   };
 
   return (
-    <div className="lost-page">
-      <div className="lost-page-header">
-        <h2>Lost Items - Check Found Items</h2>
-        <div className="header-actions">
-          <button onClick={handleRefresh} disabled={loading} className="refresh-btn">
-            {loading ? 'Loading...' : '🔄 Refresh'}
-          </button>
-          <button onClick={onBack} className="back-btn">← Back to Home</button>
-        </div>
-      </div>
-
-      {loading && (
-        <div className="loading-message">
-          <p>Loading found items...</p>
-        </div>
-      )}
-      
-      {errorMessage && (
-        <div className="error-message">
-          <p>{errorMessage}</p>
-        </div>
-      )}
-
-      {!loading && !errorMessage && foundItems.length === 0 && (
-        <div className="no-items-message">
-          <p>No found items available to check.</p>
-        </div>
-      )}
-
-      {!loading && !errorMessage && foundItems.length > 0 && (
-        <div className="items-container">
-          <div className="items-grid">
-            {foundItems.map((item, index) => (
-              <div key={item.id || index} className="item-card">
-                <div className="item-header">
-                  <h3 className="item-name">{item.name || 'Unnamed Item'}</h3>
-                  <span className="item-quantity">Qty: {item.quantity || '1'}</span>
-                </div>
-                <div className="item-details">
-                  <p className="item-description">
-                    <strong>Description:</strong> {item.description || 'No description available'}
-                  </p>
-                  <p className="item-location">
-                    <strong>Location:</strong> {item.location || 'Location not specified'}
-                  </p>
-                  {item.user && (
-                    <p className="item-user">
-                      <strong>Found by:</strong> {item.user}
-                    </p>
-                  )}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
+    <Container className="lost-page">
+  <div className="lost-page-header d-flex justify-content-between align-items-center mb-3">
+    <h2>Lost Items - Check Found Items</h2>
+    <div className="header-actions">
+      <Button onClick={handleRefresh} disabled={loading} variant="primary" className="me-2">
+        {loading ? <Spinner animation="border" size="sm" /> : '🔄 Refresh'}
+      </Button>
+      <Button onClick={onBack} variant="secondary">← Back to Home</Button>
     </div>
+  </div>
+
+  {loading && <p>Loading found items...</p>}
+  {errorMessage && <p className="text-danger">{errorMessage}</p>}
+  {!loading && !errorMessage && foundItems.length === 0 && <p>No found items available.</p>}
+
+  {!loading && !errorMessage && foundItems.length > 0 && (
+    <Row xs={1} sm={2} md={3} className="g-3">
+      {foundItems.map((item, index) => (
+        <Col key={item.id || index}>
+          <Card>
+            <Card.Body>
+              <Card.Title>{item.name || 'Unnamed Item'}</Card.Title>
+              <Card.Subtitle className="mb-2 text-muted">Qty: {item.quantity || 1}</Card.Subtitle>
+              <Card.Text>
+                <strong>Description:</strong> {item.description || 'No description available'}
+              </Card.Text>
+              <Card.Text>
+                <strong>Location:</strong> {item.location || 'Not specified'}
+              </Card.Text>
+              {item.user && <Card.Text><strong>Found by:</strong> {item.user}</Card.Text>}
+            </Card.Body>
+          </Card>
+        </Col>
+      ))}
+    </Row>
+  )}
+</Container>
   );
 }
 
