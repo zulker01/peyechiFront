@@ -2,7 +2,7 @@ import React, { useState, useCallback } from 'react';
 import axios from 'axios';
 import { Container, Row, Col, Button, Spinner, Card } from 'react-bootstrap';
 
-function LostPage({ token, onBack }) {
+function LostPage({ token, onBack,onBackToLogin }) {
   const [foundItems, setFoundItems] = useState([]);
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
@@ -83,6 +83,12 @@ function LostPage({ token, onBack }) {
       ))}
     </Row>
   )}
+  {/* Login button at the bottom */}
+  <div className="text-center mb-4">
+    <Button variant="success" size="sm" onClick={onBackToLogin}>
+      Login to Search More
+    </Button>
+  </div>
 </Container>
   );
 }
