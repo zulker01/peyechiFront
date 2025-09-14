@@ -1,12 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import axios from 'axios';
+import { Container, Form, Button, Alert } from 'react-bootstrap'
 
 function Signup({ onSwitchToLogin }) {
   const [id, setId] = useState('');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
-  const [type, setType] = useState('');
+  const [type, setType] = useState('default');
 
   const [result, setResult] = useState(null);
   const [errorMessage, setErrorMessage] = useState('');
@@ -38,82 +39,97 @@ function Signup({ onSwitchToLogin }) {
     }
   };
 
+  useEffect(() => {
+    if (result) {
+      const timer = setTimeout(() => {
+        onSwitchToLogin(); // ✅ call the function
+      }, 2500); // 2.5 seconds
+  
+      // Clean up the timer if component unmounts
+      return () => clearTimeout(timer);
+    }
+  }, [result, onSwitchToLogin]);
+  
   return (
-    <div className="signup">
-      <h2>Signup</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="id">ID</label>
-          <input
-            id="id"
-            type="text"
-            value={id}
-            onChange={(e) => setId(e.target.value)}
-            placeholder="Enter user id"
-            required
-          />
-        </div>
-        <div>
-          <label htmlFor="username">Username</label>
-          <input
-            id="username"
-            type="text"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            placeholder="Enter username"
-            required
-          />
-        </div>
-        <div>
-          <label htmlFor="password">Password</label>
-          <input
-            id="password"
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            placeholder="Enter password"
-            required
-          />
-        </div>
-        <div>
-          <label htmlFor="email">email</label>
-          <input
-            id="email"
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder="Enter email"
-            required
-          />
-        </div>
-        <div>
-          <label htmlFor="type">type</label>
-          <input
-            id="type"
-            type="text"
-            value={type}
-            onChange={(e) => setType(e.target.value)}
-            placeholder="Enter type"
-            required
-          />
-        </div>
-        <button type="submit">Create account</button>
-      </form>
-      {result && (
-        <div>
-          <p><strong>Success:</strong> User registered.</p>
-          <pre style={{ whiteSpace: 'pre-wrap' }}>{JSON.stringify(result, null, 2)}</pre>
-        </div>
-      )}
-      {errorMessage && (
-        <div>
-          <p>{errorMessage}</p>
-        </div>
-      )}
-      <div style={{ marginTop: '12px' }}>
-        <button type="button" onClick={onSwitchToLogin}>Login</button>
-      </div>
-    </div>
+    <Container className="signup mt-5" style={{ maxWidth: '500px' }}>
+  <h2 className="mb-4 text-center">Signup</h2>
+
+  <Form onSubmit={handleSubmit}>
+    {/* <Form.Group className="mb-3" controlId="id">
+      <Form.Label>ID</Form.Label>
+      <Form.Control
+        type="text"
+        value={id}
+        onChange={(e) => setId(e.target.value)}
+        placeholder="Enter user ID"
+        required
+      />
+    </Form.Group> */}
+
+    <Form.Group className="mb-3" controlId="username">
+      <Form.Label>Username</Form.Label>
+      <Form.Control
+        type="text"
+        value={username}
+        onChange={(e) => setUsername(e.target.value)}
+        placeholder="Enter username"
+        required
+      />
+    </Form.Group>
+
+    <Form.Group className="mb-3" controlId="password">
+      <Form.Label>Password</Form.Label>
+      <Form.Control
+        type="password"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+        placeholder="Enter password"
+        required
+      />
+    </Form.Group>
+
+    <Form.Group className="mb-3" controlId="email">
+      <Form.Label>Email</Form.Label>
+      <Form.Control
+        type="email"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+        placeholder="Enter email"
+        required
+      />
+    </Form.Group>
+
+    {/* <Form.Group className="mb-3" controlId="type">
+      <Form.Label>Type</Form.Label>
+      <Form.Control
+        type="text"
+        value={type}
+        onChange={(e) => setType(e.target.value)}
+        placeholder="Enter type"
+        required
+      />
+    </Form.Group> */}
+
+    <Button type="submit" variant="success" className="w-100 mb-3">
+      Create Account
+    </Button>
+  </Form>
+
+  {result && (
+    <Alert variant="success">
+      <strong>Success:</strong> User registered. Redirecting to login
+      {/* <pre style={{ whiteSpace: 'pre-wrap' }}>{JSON.stringify(result, null, 2)}</pre> */}
+    </Alert>
+  )}
+
+  {errorMessage && <Alert variant="danger">{errorMessage}</Alert>}
+
+  <div className="text-center mt-3">
+    <Button variant="secondary" size="sm" onClick={onSwitchToLogin}>
+      Login
+    </Button>
+  </div>
+</Container>
   );
 }
 

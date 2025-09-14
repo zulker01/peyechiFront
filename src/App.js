@@ -3,20 +3,24 @@ import './App.css';
 import Login from './component/login/login';
 import Signup from './component/signup/signup';
 import Users from './component/users/users';
+import FoundItemsList from './component/FoundItemsList/FoundItemsList';
 import Home from './component/homepage/homepage';
 import AppNavbar from './component/navbar/Navbar';
+import ProfilePage from './component/Profile/Profile';
+import FooterNotice from './component/FooterNotice';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() { 
   const [view, setView] = useState('home');    // default view is login 
-  const [token, setToken] = useState('');
-  const [currentUser,setCurrentUser] = useState('default')
+  const [token, setToken] = useState(null);
+  const [currentUser,setCurrentUser] = useState(null)
 
   const handleLoginSuccess = (receivedToken,userData) => {  //set receivedToken parameter to global token
     setToken(receivedToken);
     if (userData) {
       setCurrentUser(userData);
     }
-    setView('users');     
+    setView('lost');     
   };
 
   const handleBackToLogin = () => {
@@ -26,11 +30,12 @@ function App() {
   };
 
   return (
-    <div className="App">
+    <div >
       <AppNavbar 
         onSwitchToHome={() => setView('home')}
         onSwitchToLogin={() => setView('login')}
         onSwitchToSignup={() => setView('signup')}
+        onSwitchToProfile={() => setView('profile')}
         currentUser={currentUser}
         onLogout={handleBackToLogin}
       />
@@ -42,8 +47,12 @@ function App() {
           />
         </div>
       ) : view === 'signup' ? (
-        <div className="App-content">
+        <div >
           <Signup onSwitchToLogin={() => setView('login')} />
+        </div>
+      ): view === 'profile' ? (
+        <div className="App-content">
+          <ProfilePage onSwitchToLogin={() => setView('login')} />
         </div>
       ) : view === 'home' ? (
         <div className="App-content">
@@ -51,13 +60,15 @@ function App() {
             token={token} 
             userId={currentUser?.id}
             onBackToLogin={handleBackToLogin}
+            onSwitchToSignup={() => setView('signup')}
           />
         </div>
       ) : (
         <div className="App-content">
-          <Users token={token} onBackToLogin={handleBackToLogin} />
+          <FoundItemsList token={token} onBack={() => setView('home')} onBackToLogin={()=>setView('login')} />
         </div>
       )}
+      <FooterNotice />
     </div>
   );
 }
