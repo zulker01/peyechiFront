@@ -7,6 +7,7 @@ import FoundItemsList from './component/FoundItemsList/FoundItemsList';
 import Home from './component/homepage/homepage';
 import AppNavbar from './component/navbar/Navbar';
 import ProfilePage from './component/Profile/Profile';
+import FooterNotice from './component/FooterNotice';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() { 
@@ -67,6 +68,7 @@ function App() {
           <FoundItemsList token={token} onBack={() => setView('home')} onBackToLogin={()=>setView('login')} />
         </div>
       )}
+      <FooterNotice />
     </div>
   );
 }

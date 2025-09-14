@@ -12,6 +12,7 @@ function Home({token, userId, onBackToLogin, onSwitchToSignup}){
 
     return(
 <Container className="mt-5">
+
   {/* Hero Section */}
   <Row className="align-items-center text-center mb-5">
     <Col>
