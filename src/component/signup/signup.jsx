@@ -3,11 +3,11 @@ import axios from 'axios';
 import { Container, Form, Button, Alert } from 'react-bootstrap'
 
 function Signup({ onSwitchToLogin }) {
-  const [id, setId] = useState('');
+  // const [id, setId] = useState('');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
-  const [type, setType] = useState('default');
+  // const [type, setType] = useState('default');
 
   const [result, setResult] = useState(null);
   const [errorMessage, setErrorMessage] = useState('');
@@ -21,11 +21,11 @@ function Signup({ onSwitchToLogin }) {
       const response = await axios.post(
         `${process.env.REACT_APP_backendURI}/api/auth/user/register`,
         {
-          id: id,
+          // id: id,
           username: username,
           password: password,
           email: email,
-          type: type
+          // type: type
         },
         {
           headers: { 'Content-Type': 'application/json' }

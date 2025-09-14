@@ -21,11 +21,11 @@ function FoundItemsList({ token, onBack,onBackToLogin }) {
         },
         {
           headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            ...(token ? { Authorization: `Bearer ${token}` } : {})
           }
         }
       );
-    
 
       setFoundItems(response?.data?.data || response?.data || []);
     } catch (error) {

@@ -1,4 +1,4 @@
-import { Container, Alert } from 'react-bootstrap';
+import {  Alert } from 'react-bootstrap';
 
 function FooterNotice() {
   return (
