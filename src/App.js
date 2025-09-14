@@ -3,6 +3,7 @@ import './App.css';
 import Login from './component/login/login';
 import Signup from './component/signup/signup';
 import Users from './component/users/users';
+import LostPage from './component/LostPage/LostPage';
 import Home from './component/homepage/homepage';
 import AppNavbar from './component/navbar/Navbar';
 import ProfilePage from './component/Profile/Profile';
@@ -11,14 +12,14 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 function App() { 
   const [view, setView] = useState('home');    // default view is login 
   const [token, setToken] = useState('');
-  const [currentUser,setCurrentUser] = useState('default')
+  const [currentUser,setCurrentUser] = useState(null)
 
   const handleLoginSuccess = (receivedToken,userData) => {  //set receivedToken parameter to global token
     setToken(receivedToken);
     if (userData) {
       setCurrentUser(userData);
     }
-    setView('users');     
+    setView('lost');     
   };
 
   const handleBackToLogin = () => {
@@ -62,7 +63,7 @@ function App() {
         </div>
       ) : (
         <div className="App-content">
-          <Users token={token} onBackToLogin={handleBackToLogin} />
+          <LostPage token={token} onBack={() => setView('home')} onBackToLogin={()=>setView('login')} />
         </div>
       )}
     </div>

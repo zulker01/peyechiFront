@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-
+import { Container, Form, Button, Alert } from 'react-bootstrap';
 function Login({ onSwitchToSignup, onLoginSuccess }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -52,47 +52,52 @@ function Login({ onSwitchToSignup, onLoginSuccess }) {
   };
 
   return (
-    <div className="login">
-      <h2>Login</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="email">Email or Username</label>
-          <input
-            id="email"
-            type="text"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder="Enter email or username"
-            required
-          />
-        </div>
-        <div>
-          <label htmlFor="password">Password</label>
-          <input
-            id="password"
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            placeholder="Enter your password"
-            required
-          />
-        </div>
-        <button type="submit">Login</button>
-      </form>
-      {token && (
-        <div>
-          <p><strong>Token:</strong> {token}</p>
-        </div>
-      )}
-      {errorMessage && ( // if error msg is null or empty no need to render () jsx . 
-        <div>
-          <p>{errorMessage}</p>
-        </div>
-      )}
-      <div style={{ marginTop: '12px' }}>
-        <button type="button" onClick={onSwitchToSignup}>Register</button>
-      </div>
-    </div>
+    <Container className="login mt-5" style={{ maxWidth: '400px' }}>
+  <h2 className="mb-4 text-center">Login</h2>
+  <Form onSubmit={handleSubmit}>
+    <Form.Group className="mb-3" controlId="email">
+      <Form.Label>Email or Username</Form.Label>
+      <Form.Control
+        type="text"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+        placeholder="Enter email or username"
+        required
+      />
+    </Form.Group>
+
+    <Form.Group className="mb-3" controlId="password">
+      <Form.Label>Password</Form.Label>
+      <Form.Control
+        type="password"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+        placeholder="Enter your password"
+        required
+      />
+    </Form.Group>
+
+    <Button type="submit" variant="primary" className="w-100 mb-3">
+      Login
+    </Button>
+  </Form>
+
+  {token && (
+    <Alert variant="success">
+      <strong>Token:</strong> {token}
+    </Alert>
+  )}
+
+  {errorMessage && (
+    <Alert variant="danger">{errorMessage}</Alert>
+  )}
+
+  <div className="text-center mt-3">
+    <Button variant="secondary" size="sm" onClick={onSwitchToSignup}>
+      Register
+    </Button>
+  </div>
+</Container>
   );
 }
 

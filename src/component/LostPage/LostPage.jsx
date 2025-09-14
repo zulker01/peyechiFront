@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback ,useEffect} from 'react';
 import axios from 'axios';
 import { Container, Row, Col, Button, Spinner, Card } from 'react-bootstrap';
 
@@ -40,6 +40,9 @@ function LostPage({ token, onBack,onBackToLogin }) {
     }
   }, [token]);
 
+  useEffect(() => {
+      fetchFoundItems();
+  }, [fetchFoundItems]);
   
 
   const handleRefresh = () => {
