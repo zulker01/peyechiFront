@@ -11,7 +11,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() { 
   const [view, setView] = useState('home');    // default view is login 
-  const [token, setToken] = useState('');
+  const [token, setToken] = useState(null);
   const [currentUser,setCurrentUser] = useState(null)
 
   const handleLoginSuccess = (receivedToken,userData) => {  //set receivedToken parameter to global token

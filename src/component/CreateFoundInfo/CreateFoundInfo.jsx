@@ -1,7 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { Container, Form, Button, Alert } from 'react-bootstrap';
+
 import axios from 'axios';
 
-function CreateFoundItem({ token, userId, onBack }) {
+function CreateFoundItem({ token, userId,onBackToLogin,onBackToHome }) {
+  
   const [formData, setFormData] = useState({
     name: '',
     quantity: '',
@@ -10,6 +13,13 @@ function CreateFoundItem({ token, userId, onBack }) {
   });
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState('');
+
+  // Redirect to login if token is null
+  useEffect(() => {
+    if (!token) {
+      onBackToLogin();
+    }
+  }, [token,onBackToLogin ]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -30,7 +40,7 @@ function CreateFoundItem({ token, userId, onBack }) {
         requestBody,
         {
           headers: {
-            'Authorization': `Bearer ${token}`,
+            Authorization: `Bearer ${token}`,
             'Content-Type': 'application/json'
           }
         }
@@ -38,7 +48,6 @@ function CreateFoundItem({ token, userId, onBack }) {
 
       if (response.status === 200 || response.status === 201) {
         setMessage('Found item created successfully!');
-        // Clear form after successful submission
         setFormData({
           name: '',
           quantity: '',
@@ -55,43 +64,44 @@ function CreateFoundItem({ token, userId, onBack }) {
   };
 
   return (
-    <div className="found-info">
-      <div className="found-info-header">
-        <h2>Found Anything ? Add here</h2>
-        <button onClick={onBack} className="back-btn">← Back to Home</button>
-      </div>
-      
+    <Container className="mt-5" style={{ maxWidth: '600px' }}>
+      <h2 className="mb-4 text-center">Found Anything? Add Here</h2>
+
       {message && (
-        <div className={`message ${message.includes('successfully') ? 'success' : 'error'}`}>
+        <Alert variant={message.includes('successfully') ? 'success' : 'danger'}>
           {message}
-        </div>
+        </Alert>
       )}
-      
-      <form onSubmit={handleSubmit} className="found-info-form">
+
+      <Form onSubmit={handleSubmit}>
         {[
           { key: 'name', label: 'Items Found' },
           { key: 'quantity', label: 'Quantity' },
           { key: 'description', label: 'Description' },
           { key: 'location', label: 'Location' }
         ].map(field => (
-          <div key={field.key} className="form-group">
-            <label htmlFor={field.key}>{field.label}:</label>
-            <input
+          <Form.Group className="mb-3" controlId={field.key} key={field.key}>
+            <Form.Label>{field.label}</Form.Label>
+            <Form.Control
               type="text"
-              id={field.key}
-              name={field.key}
               value={formData[field.key]}
-              onChange={(e) => setFormData({...formData, [field.key]: e.target.value})}
+              onChange={(e) => setFormData({ ...formData, [field.key]: e.target.value })}
               placeholder={`Enter ${field.label.toLowerCase()}`}
               required
             />
-          </div>
+          </Form.Group>
         ))}
-        <button type="submit" className="submit-btn" disabled={loading}>
-          {loading ? 'Creating...' : 'Submit'}
-        </button>
-      </form>
-    </div>
+
+        <div className="d-flex justify-content-between">
+          <Button variant="secondary" onClick={() => onBackToHome}>
+            ← Back to Home
+          </Button>
+          <Button type="submit" variant="primary" disabled={loading}>
+            {loading ? 'Creating...' : 'Submit'}
+          </Button>
+        </div>
+      </Form>
+    </Container>
   );
 }
 

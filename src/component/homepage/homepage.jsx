@@ -6,7 +6,7 @@ import { Container, Row, Col, Button, Card, Form, InputGroup } from 'react-boots
 function Home({token, userId, onBackToLogin, onSwitchToSignup}){
     const [currentView, setCurrentView] = useState('home');
 
-    if (currentView === 'createFoundItem') return <CreateFoundItem token={token} userId={userId} onBack={() => setCurrentView('home')} />;
+    if (currentView === 'createFoundItem') return <CreateFoundItem token={token} userId={userId} onBack={() => setCurrentView('home')}  onBackToLogin={onBackToLogin}/>;
     if (currentView === 'browseFoundItems') return <FoundItemsList token={token} onBack={() => setCurrentView('home')} onBackToLogin={onBackToLogin} />;
     
 
