@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
-function FoundInfo({ token, userId, onBack }) {
+function CreateFoundItem({ token, userId, onBack }) {
   const [formData, setFormData] = useState({
     name: '',
     quantity: '',
@@ -95,4 +95,4 @@ function FoundInfo({ token, userId, onBack }) {
   );
 }
 
-export default FoundInfo;
+export default CreateFoundItem;

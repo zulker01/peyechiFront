@@ -3,7 +3,7 @@ import './App.css';
 import Login from './component/login/login';
 import Signup from './component/signup/signup';
 import Users from './component/users/users';
-import LostPage from './component/LostPage/LostPage';
+import FoundItemsList from './component/FoundItemsList/FoundItemsList';
 import Home from './component/homepage/homepage';
 import AppNavbar from './component/navbar/Navbar';
 import ProfilePage from './component/Profile/Profile';
@@ -59,11 +59,12 @@ function App() {
             token={token} 
             userId={currentUser?.id}
             onBackToLogin={handleBackToLogin}
+            onSwitchToSignup={() => setView('signup')}
           />
         </div>
       ) : (
         <div className="App-content">
-          <LostPage token={token} onBack={() => setView('home')} onBackToLogin={()=>setView('login')} />
+          <FoundItemsList token={token} onBack={() => setView('home')} onBackToLogin={()=>setView('login')} />
         </div>
       )}
     </div>
