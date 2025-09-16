@@ -3,7 +3,7 @@ import { Container, Form, Button, Alert } from 'react-bootstrap';
 
 import axios from 'axios';
 
-function CreateFoundItem({ token, userId,onBackToLogin,onBackToHome }) {
+function CreateFoundItem({ token, userId,onBackToHome,onBackToLogin }) {
   
   const [formData, setFormData] = useState({
     name: '',
@@ -32,7 +32,9 @@ function CreateFoundItem({ token, userId,onBackToLogin,onBackToHome }) {
         quantity: formData.quantity,
         description: formData.description,
         location: formData.location,
-        user: userId
+        user: userId,
+        dateFound:formData.date
+
       };
 
       const response = await axios.post(
@@ -73,34 +75,41 @@ function CreateFoundItem({ token, userId,onBackToLogin,onBackToHome }) {
         </Alert>
       )}
 
-      <Form onSubmit={handleSubmit}>
-        {[
-          { key: 'name', label: 'Items Found' },
-          { key: 'quantity', label: 'Quantity' },
-          { key: 'description', label: 'Description' },
-          { key: 'location', label: 'Location' }
-        ].map(field => (
-          <Form.Group className="mb-3" controlId={field.key} key={field.key}>
-            <Form.Label>{field.label}</Form.Label>
-            <Form.Control
-              type="text"
-              value={formData[field.key]}
-              onChange={(e) => setFormData({ ...formData, [field.key]: e.target.value })}
-              placeholder={`Enter ${field.label.toLowerCase()}`}
-              required
-            />
-          </Form.Group>
-        ))}
+<Form onSubmit={handleSubmit}>
+  {[
+    { key: 'name', label: 'Items Found', type: 'text', required: true },
+    { key: 'quantity', label: 'Quantity', type: 'text', required: true },
+    { key: 'description', label: 'Description', type: 'text', required: true },
+    { key: 'location', label: 'Location', type: 'text', required: true },
+    { key: 'date', label: 'Date Found', type: 'date', required: false } // optional field
+  ].map(field => (
+    <Form.Group className="mb-3" controlId={field.key} key={field.key}>
+      <Form.Label>{field.label}</Form.Label>
+      <Form.Control
+        type={field.type}
+        value={formData[field.key] || ''}
+        onChange={(e) => setFormData({ ...formData, [field.key]: e.target.value })}
+        placeholder={field.type === 'text' ? `Enter ${field.label.toLowerCase()}` : ''}
+        required={field.required}
+        max={field.type === 'date' ? new Date().toISOString().split('T')[0] : undefined} 
+      />
+      {field.type === 'date' && (
+        <Form.Text className="text-muted">
+          Optional: select the date the item was found (cannot be in the future).
+        </Form.Text>
+      )}
+    </Form.Group>
+  ))}
 
-        <div className="d-flex justify-content-between">
-          <Button variant="secondary" onClick={() => onBackToHome}>
-            ← Back to Home
-          </Button>
-          <Button type="submit" variant="primary" disabled={loading}>
-            {loading ? 'Creating...' : 'Submit'}
-          </Button>
-        </div>
-      </Form>
+  <div className="d-flex justify-content-between">
+    <Button variant="secondary" onClick={onBackToHome}>
+      ← Back to Home
+    </Button>
+    <Button type="submit" variant="primary" disabled={loading}>
+      {loading ? 'Creating...' : 'Submit'}
+    </Button>
+  </div>
+</Form>
     </Container>
   );
 }
