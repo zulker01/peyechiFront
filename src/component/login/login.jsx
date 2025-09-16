@@ -29,11 +29,11 @@ function Login({ onSwitchToSignup, onLoginSuccess }) {
       );
 
       const receivedToken = response?.data?.data?.token || ''; // ? checks if response is null or undefined
-      const username = response?.data?.data?.username || response?.data?.data?.email || email;
+      const username = response?.data?.data?.username || response?.data?.data?.email || null;
       const userId = response?.data?.data?.userId  || '';
       const userData = { 
         username: username, 
-        email: email, 
+        email: response?.data?.data?.email, 
         id: userId 
       };
       setToken(receivedToken); // sets token locally , not needed 
