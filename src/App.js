@@ -20,7 +20,7 @@ function App() {
     if (userData) {
       setCurrentUser(userData);
     }
-    setView('lost');     
+    setView('home');     
   };
 
   const handleBackToLogin = () => {
@@ -52,13 +52,13 @@ function App() {
         </div>
       ): view === 'profile' ? (
         <div className="App-content">
-          <ProfilePage onSwitchToLogin={() => setView('login')} />
+          <ProfilePage token={token} currentUser = {currentUser} onSwitchToLogin={() => setView('login')} />
         </div>
       ) : view === 'home' ? (
         <div className="App-content">
           <Home 
             token={token} 
-            userId={currentUser?.id}
+            user={currentUser}
             onBackToLogin={handleBackToLogin}
             onSwitchToSignup={() => setView('signup')}
           />

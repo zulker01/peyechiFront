@@ -3,11 +3,11 @@ import CreateFoundItem from '../CreateFoundInfo/CreateFoundInfo';
 import FoundItemsList from '../FoundItemsList/FoundItemsList';
 import { Container, Row, Col, Button, Card, Form, InputGroup } from 'react-bootstrap';
 
-function Home({token, userId, onBackToLogin, onSwitchToSignup}){
+function Home({token, user, onBackToLogin, onSwitchToSignup}){
     const [currentView, setCurrentView] = useState('home');
 
-    if (currentView === 'createFoundItem') return <CreateFoundItem token={token} userId={userId} onBackToHome={() => setCurrentView('home')}  onBackToLogin={onBackToLogin}/>;
-    if (currentView === 'browseFoundItems') return <FoundItemsList token={token} onBackToHome={() => setCurrentView('home')} onBackToLogin={onBackToLogin} />;
+    if (currentView === 'createFoundItem') return <CreateFoundItem token={token} userId={user?.id} onBackToHome={() => setCurrentView('home')}  onBackToLogin={onBackToLogin}/>;
+    if (currentView === 'browseFoundItems') return <FoundItemsList token={token} onBackToHome={() => setCurrentView('home')} onBackToLogin={onBackToLogin} user={null}/>;
     
 
     return(
